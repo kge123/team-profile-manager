@@ -15,7 +15,7 @@ const managerQuestions = [
     name: "name",
   },
   {
-    type: "number",
+    type: "input",
     message: "What is the manager ID#?",
     name: "idNumber",
   },
@@ -38,7 +38,7 @@ const internQuestions = [
     name: "internName",
   },
   {
-    type: "number",
+    type: "input",
     message: "What is the Intern ID#?",
     name: "internId",
   },
@@ -57,18 +57,18 @@ const internQuestions = [
 const engineerQuestions = [
   {
     type: "input",
-    message: "What is the Manager name?",
-    name: "name",
+    message: "What is the Engineer name?",
+    name: "engineerName",
   },
   {
-    type: "number",
+    type: "input",
     message: "What is the engineers ID#?",
-    name: "idNumber",
+    name: "engineerId",
   },
   {
     type: "input",
     message: "What is the engineers email address?",
-    name: "email",
+    name: "engineerEmail",
   },
   {
     type: "input",
@@ -83,6 +83,7 @@ function writeToFile(fileName, data) {
 function init() {
   function createManager() {
     inquirer.prompt(managerQuestions).then((answers) => {
+
       const manager = new Manager(
         answers.name,
         answers.idNumber,
@@ -96,12 +97,14 @@ function init() {
       //writeToFile("index.html", generateHTML(answers));
     });
   }
+
   function createEngineer() {
     inquirer.prompt(engineerQuestions).then((answers) => {
+
       const engineer = new Engineer(
-        answers.name,
-        answers.idNumber,
-        answers.email,
+        answers.engineerName,
+        answers.engineerId,
+        answers.engineerEmail,
         answers.github
       );
 
@@ -110,12 +113,14 @@ function init() {
       buildteam();
     });
   }
+
   function createIntern() {
+
     inquirer.prompt(internQuestions).then((answers) => {
       const intern = new Intern(
-        answers.name,
-        answers.idNumber,
-        answers.email,
+        answers.internName,
+        answers.internId,
+        answers.internEmail,
         answers.school
       );
 
@@ -126,6 +131,7 @@ function init() {
   }
 
   function buildteam() {
+    
     inquirer
       .prompt([
         {
@@ -138,8 +144,10 @@ function init() {
       .then((ans) => {
         switch (ans.choice) {
           case "Add Intern":
+            createIntern()
             break;
           case "Add Engineer":
+            createEngineer()
             break;
           default:
             renderHtml(team);
@@ -148,12 +156,12 @@ function init() {
   }
 
   function renderHtml(team) {
+
     writeToFile("index.html", generateHTML(team));
   }
 
   createManager();
-  createEngineer();
-  createIntern();
+
 }
 
 init();
